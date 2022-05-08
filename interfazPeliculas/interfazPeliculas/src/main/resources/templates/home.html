@@ -1,0 +1,75 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Portal Web Peliculas</title>
+</head>
+<body>
+
+<div>
+    <nav class="navbar sticky-top rounded-bottom navbar-dark bg-dark">
+
+        <a class="navbar-brand nav-item px-3" th:href="@{/home}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
+                <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
+            </svg>
+            Portal Web Peliculas
+        </a>
+
+        <div class="nav-item px-2">
+            <a class="navbar-brand nav-item px-3" sec:authorize="isAuthenticated()" th:text="${#authentication.getName()}"></a>
+
+            <a th:href="@{/login}" class="btn btn-light btn-lg" sec:authorize="!isAuthenticated()">Login</a>
+            <a th:href="@{/signup}" class="btn btn-outline-light btn-lg" sec:authorize="!isAuthenticated()">Register</a>
+            <a th:href="@{/logout}" class="btn btn-danger btn-lg" sec:authorize="isAuthenticated()">Logout</a>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+    <br>
+    <h1 class="text-center">Portal Web Peliculas</h1>
+    <div th:if="${msg != null}" class='alert alert-success' th:text="${msg}" role='alert'></div>
+    <div class="card-group">
+        <div class="card text-white bg-dark">
+            <div class="card-header">Peliculas</div>
+            <div class="card-body text-center">
+                <h5 class="card-title">Peliculas</h5>
+                <p class="card-text">Buscar peliculas por titulo, actor y genero. Gestionar peliculas.</p>
+                <a th:href="@{/peliculas/}" class="btn btn-light btn-lg">Buscar peliculas</a>
+                <a th:href="@{/peliculas/new}" class="btn btn-light btn-lg" sec:authorize="hasRole('ROLE_ADMIN')">Insertar
+                    pelicula</a>
+            </div>
+        </div>
+        <div class="card text-white bg-dark">
+            <div class="card-header">Actores</div>
+            <div class="card-body text-center">
+                <h5 class="card-title">Actores</h5>
+                <p class="card-text">Busca actores por pais de nacimiento y nombre. Gestionar actores.</p>
+                <a th:href="@{/actores/}" class="btn btn-light btn-lg">Buscar actores</a>
+                <a th:href="@{/actores/new}" class="btn btn-light btn-lg" sec:authorize="hasRole('ROLE_ADMIN')">Insertar
+                    Actor</a>
+            </div>
+        </div>
+        <div class="card text-white bg-dark" sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="card-header">Usuarios</div>
+            <div class="card-body text-center">
+                <h5 class="card-title">Usuarios</h5>
+                <p class="card-text">Listar y gestionar Usuarios del sistema. Solo para usuarios administradores.</p>
+                <a th:href="@{/usuarios}" class="btn btn-light btn-lg">Buscar usuarios</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+</html>
